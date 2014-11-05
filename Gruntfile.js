@@ -174,11 +174,24 @@ module.exports = function(grunt) {
     }
   });
 
+  /*
+   * Make sure that the bower_components dependency path exists
+   * even if we have no external dependencies, otherwise
+   * wiredep gets mad
+   */
+  grunt.registerTask('checkdeps', function() {
+    var fs = require('fs');
+    if (! fs.existsSync('bower_components')) {
+      fs.mkdirSync('bower_components');
+    }
+  });
+
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run([
         'clean:server',
         'jshint',
+        'checkdeps',
         'wiredep',
         'includes',
         'copy',
@@ -189,6 +202,7 @@ module.exports = function(grunt) {
     grunt.task.run([
       'clean:server',
       'jshint',
+      'checkdeps',
       'wiredep',
       'includes',
       'copy',
@@ -196,7 +210,6 @@ module.exports = function(grunt) {
       'watch'
     ]);
   });
-
   grunt.registerTask('server', function (target) {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
     grunt.task.run([target ? ('serve:' + target) : 'serve']);
