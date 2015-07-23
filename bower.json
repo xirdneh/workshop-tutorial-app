@@ -1,0 +1,7 @@
+{
+  "name": "workshop-tutorial-app",
+  "private": true,
+  "dependencies": {
+    "biojs": "biojs/biojs#v1.0"
+  }
+}
